@@ -1,3 +1,4 @@
+package stockmarket;
 
 import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Root;
 
@@ -8,7 +9,13 @@ import java.text.DecimalFormat;
 
 //import org.omg.CORBA.portable.ResponseHandler;
 
+
+
+
+
+
 import static java.util.jar.Pack200.Packer.PASS;
+
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
@@ -21,18 +28,18 @@ public class PastHistoryData {
     static final String DB_URL = "jdbc:mysql://localhost/test";
     static final String USER = "root";
     static final String PASS = "Saurabh";
-
+    
     public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {
         
-        Connection conn = null;
-        Statement stmt = null;
+    	Connection conn = null;
+    	Statement stmt = null;
         
         try{
       		Class.forName("com.mysql.jdbc.Driver");
 
      		System.out.println("Connecting to database...");
      		conn = DriverManager.getConnection(DB_URL, USER, PASS);
-                System.out.println("Connected");
+     		    System.out.println("Connected");
                 
                 int i=0;
                 String query = "SELECT Symbol FROM test.company";
@@ -41,8 +48,9 @@ public class PastHistoryData {
                 while (rs.next() && i<20) {
                     i++;
                     String test=rs.getString("Symbol");
+                    System.out.println(test);
                     PastHistoryAPI(test);
-                }
+                   }
         }
         catch (SQLException e ) {
             
@@ -53,7 +61,9 @@ public class PastHistoryData {
             }
         }
     }
-    public static void PastHistoryAPI(String Symbol) throws IOException {
+    public static void PastHistoryAPI(String Symbol) throws IOException, SQLException, ClassNotFoundException {
+    	
+    	
         
 //        String statement = "http://www.quandl.com/api/v1/datasets/PRAGUESE/PX.json";
 //        URL url = new URL(statement);	
@@ -80,7 +90,7 @@ public class PastHistoryData {
          try {
              HttpGet httpget = new HttpGet("http://www.quandl.com/api/v1/datasets/GOOG/NASDAQ_"+Symbol+".csv?&trim_start=2014-02-21&trim_end=2014-03-21&sort_order=desc");
 
-             System.out.println("Executing Request: " + httpget.getURI());
+             //System.out.println("Executing Request: " + httpget.getURI());
 
              ResponseHandler<String> responseHandler = new BasicResponseHandler();
 
@@ -93,11 +103,12 @@ public class PastHistoryData {
 
              httpclient.getConnectionManager().shutdown();
          }
-    	//System.out.println(output);
-        calcPHV(output);
+    	System.out.println(output);
+        double phv= calcPHV(output);
+        UpdatePHV.update(Symbol,phv); 
    }
 
-    private static void calcPHV(String output) {
+    private static double calcPHV(String output) {
         
        DecimalFormat df = new DecimalFormat();
        df.setMaximumFractionDigits(5);
@@ -126,7 +137,8 @@ public class PastHistoryData {
                  j=j+5;
              }
              ph=count/28;
-             System.out.println(count);
+             //System.out.println(count);
              System.out.println(ph);
+             return(ph);
     }
 }

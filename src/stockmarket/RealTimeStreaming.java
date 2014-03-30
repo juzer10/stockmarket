@@ -1,3 +1,4 @@
+package stockmarket;
 import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Root;
 
 import java.io.*;
@@ -10,7 +11,7 @@ public class RealTimeStreaming {
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
         static final String DB_URL = "jdbc:mysql://localhost/test";
         static final String USER = "root";
-        static final String PASS = "password";
+        static final String PASS = "Saurabh";
 
 	 public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {
 	 	Connection conn = null;
@@ -152,6 +153,9 @@ public class RealTimeStreaming {
 			stmt = conn.createStatement();
             stmt.executeUpdate(query);
 		
+		}
+		else{
+			
 		}
 	}
 }
