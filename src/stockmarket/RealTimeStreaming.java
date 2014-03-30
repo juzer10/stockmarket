@@ -11,7 +11,7 @@ public class RealTimeStreaming {
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
         static final String DB_URL = "jdbc:mysql://localhost/test";
         static final String USER = "root";
-        static final String PASS = "Saurabh";
+        static final String PASS = "password";
 
 	 public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {
 	 	Connection conn = null;
@@ -33,7 +33,7 @@ public class RealTimeStreaming {
             System.out.println(symbolName);
             RealTimeAPI(symbolName);
             try {
-            	Thread.sleep(10000);
+            	Thread.sleep(5000);
             } catch(InterruptedException e) {}
             
         }
