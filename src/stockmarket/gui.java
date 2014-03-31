@@ -19,6 +19,8 @@ import javax.swing.JLabel;
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import java.awt.Font;
 
 public class gui {
 
@@ -87,5 +89,26 @@ public class gui {
 		});
 		button_1.setBounds(34, 98, 121, 43);
 		frame.getContentPane().add(button_1);
+		
+		Button button_2 = new Button("Show PHV");
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String[] arguments = new String[] {"123"};
+			    try {
+					DisplayPHV.display();
+				} catch (ClassNotFoundException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		button_2.setBounds(34, 172, 121, 43);
+		frame.getContentPane().add(button_2);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setFont(new Font("Calibri", Font.PLAIN, 12));
+		textArea.setBounds(269, 28, 279, 307);
+		frame.getContentPane().add(textArea);
+
 	}
 }

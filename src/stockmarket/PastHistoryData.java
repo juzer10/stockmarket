@@ -27,7 +27,7 @@ public class PastHistoryData {
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
     static final String DB_URL = "jdbc:mysql://localhost/test";
     static final String USER = "root";
-    static final String PASS = "password";
+    static final String PASS = "Saurabh";
     
     public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {
         
@@ -45,8 +45,7 @@ public class PastHistoryData {
                 String query = "SELECT Symbol FROM test.company";
                 stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(query);
-                while (rs.next() && i<20) {
-                    i++;
+                while (rs.next()) {
                     String test=rs.getString("Symbol");
                     System.out.println(test);
                     PastHistoryAPI(test);
@@ -88,7 +87,7 @@ public class PastHistoryData {
     	 HttpClient httpclient = new DefaultHttpClient();
     	 String output="";
          try {
-             HttpGet httpget = new HttpGet("http://www.quandl.com/api/v1/datasets/GOOG/NASDAQ_"+Symbol+".csv?&trim_start=2014-02-21&trim_end=2014-03-21&sort_order=desc");
+             HttpGet httpget = new HttpGet("http://www.quandl.com/api/v1/datasets/GOOG/NASDAQ_"+Symbol+".csv?&auth_token=Ts7H6ayVewy4B9sqnbkz&trim_start=2014-02-21&trim_end=2014-03-21&sort_order=desc");
 
              //System.out.println("Executing Request: " + httpget.getURI());
 
@@ -103,7 +102,8 @@ public class PastHistoryData {
 
              httpclient.getConnectionManager().shutdown();
          }
-    	System.out.println(output);
+        
+        System.out.println(output);
         double phv= calcPHV(output);
         UpdatePHV.update(Symbol,phv); 
    }
@@ -128,7 +128,7 @@ public class PastHistoryData {
                  
                  if(cp>op) 
                     count=count+1;
-                 else if(cp<op && count==0)
+                 else if(cp<=op && count==0)
                     count=0;
                  else
                     count=count-1;
