@@ -5,7 +5,10 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Root;
 import java.io.*;
 import java.sql.*;
 import java.net.*;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 //import org.omg.CORBA.portable.ResponseHandler;
 
@@ -13,6 +16,8 @@ import java.text.DecimalFormat;
 
 
 
+
+import java.text.SimpleDateFormat;
 
 import static java.util.jar.Pack200.Packer.PASS;
 
@@ -42,7 +47,8 @@ public class PastHistoryData {
      		    System.out.println("Connected");
                 
                 int i=0;
-                String query = "SELECT Symbol FROM test.company";
+                //String query = "SELECT Symbol FROM test.company";
+                String query = "SELECT Symbol FROM test.companylist";
                 stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(query);
                 while (rs.next()) {
@@ -83,11 +89,27 @@ public class PastHistoryData {
 //        }
 //        br.close();
     	
+    	 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+         //get current date time with Date()
+         Date date = new Date();
+         Calendar cal = Calendar.getInstance();
+         cal.setTime(date);
+         cal.add(Calendar.DAY_OF_YEAR, -1);
+         Date currentDate = cal.getTime();
+         //System.out.println(dateFormat.format(date)); don't print it, but save it!
+         String endDate = dateFormat.format(currentDate);
+         //System.out.println(endDate);
+         Calendar cal1 = Calendar.getInstance();
+         cal1.setTime(date);
+         cal1.add(Calendar.DAY_OF_YEAR, -28);
+         Date previousDate = cal1.getTime();
+         String startDate= dateFormat.format(previousDate);
+         //System.out.println(startDate);
     	
     	 HttpClient httpclient = new DefaultHttpClient();
     	 String output="";
          try {
-             HttpGet httpget = new HttpGet("http://www.quandl.com/api/v1/datasets/GOOG/NASDAQ_"+Symbol+".csv?&auth_token=Ts7H6ayVewy4B9sqnbkz&trim_start=2014-02-21&trim_end=2014-03-21&sort_order=desc");
+             HttpGet httpget = new HttpGet("http://www.quandl.com/api/v1/datasets/GOOG/NASDAQ_"+Symbol+".csv?&auth_token=Ts7H6ayVewy4B9sqnbkz&trim_start="+startDate+"&trim_end="+endDate+"&sort_order=desc");
 
              //System.out.println("Executing Request: " + httpget.getURI());
 
