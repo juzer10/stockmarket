@@ -27,7 +27,7 @@ public class PastHistoryData {
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
     static final String DB_URL = "jdbc:mysql://localhost/test";
     static final String USER = "root";
-    static final String PASS = "Saurabh";
+    static final String PASS = "password";
     
     public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {
         
@@ -98,7 +98,11 @@ public class PastHistoryData {
          } catch (IOException e) {
              e.printStackTrace();
              //return e.getMessage();
-         } finally {
+         } 
+        // catch(org.apache.http.client.HttpResponseException es) {
+        	// es.printStackTrace();
+        // }
+         finally {
 
              httpclient.getConnectionManager().shutdown();
          }
