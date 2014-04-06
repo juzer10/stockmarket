@@ -39,7 +39,7 @@ public class CSV_database_test {
 		
 				try {
 					br = new BufferedReader(new FileReader(csvFile));
-					while((line = br.readLine()) != null) {
+					while((line = br.readLine()) != "endofstock") {
 						System.out.print("HERE");
 						//String[] data = line.split(split);
 						Thread.sleep(5000);
