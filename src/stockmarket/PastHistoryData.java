@@ -55,7 +55,9 @@ public class PastHistoryData {
                     String test=rs.getString("Symbol");
                     System.out.println(test);
                     PastHistoryAPI(test);
+                    i++;
                    }
+                System.out.println(i);
         }
         catch (SQLException e ) {
             
@@ -105,11 +107,18 @@ public class PastHistoryData {
          Date previousDate = cal1.getTime();
          String startDate= dateFormat.format(previousDate);
          //System.out.println(startDate);
+         
+       //creating csv files for the stock
+         String addr="E://Users//Saurabh//Documents//GitHub//stockmarket//csv files//"+Symbol+".csv";
+         File file = new File(addr);
+         boolean fileCreated = false;
+         fileCreated = file.createNewFile();
+         
     	
     	 HttpClient httpclient = new DefaultHttpClient();
     	 String output="";
          try {
-             HttpGet httpget = new HttpGet("http://www.quandl.com/api/v1/datasets/GOOG/NASDAQ_"+Symbol+".csv?&auth_token=Ts7H6ayVewy4B9sqnbkz&trim_start="+startDate+"&trim_end="+endDate+"&sort_order=desc");
+        	 HttpGet httpget = new HttpGet("http://www.quandl.com/api/v1/datasets/GOOG/NASDAQ_"+Symbol+".csv?&auth_token=Ts7H6ayVewy4B9sqnbkz&trim_start="+startDate+"&trim_end="+endDate+"&sort_order=desc");
 
              //System.out.println("Executing Request: " + httpget.getURI());
 
@@ -117,6 +126,16 @@ public class PastHistoryData {
 
              output = httpclient.execute(httpget, responseHandler);
              
+             FileWriter fWriter = null;
+        	 BufferedWriter writer = null; 
+        	 
+        	 fWriter = new FileWriter(addr);
+        	 writer = new BufferedWriter(fWriter);
+        	 
+        	 writer.write(output);
+        	 writer.newLine();
+        	 writer.close();
+        	 
          } catch (IOException e) {
              e.printStackTrace();
              //return e.getMessage();
