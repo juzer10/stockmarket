@@ -16,7 +16,7 @@ import java.sql.SQLException;
 
 import javax.swing.JLabel;
 
-import com.jgoodies.forms.factories.DefaultComponentFactory;
+//import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
