@@ -47,7 +47,7 @@ public class PastHistoryData {
      		    System.out.println("Connected");
                 
                 int i=0;
-                //String query = "SELECT Symbol FROM test.company";
+               // String query = "SELECT Symbol FROM test.company";
                 String query = "SELECT Symbol FROM test.companylist";
                 stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(query);
@@ -70,27 +70,6 @@ public class PastHistoryData {
     }
     public static void PastHistoryAPI(String Symbol) throws IOException, SQLException, ClassNotFoundException {
     	
-    	
-        
-//        String statement = "http://www.quandl.com/api/v1/datasets/PRAGUESE/PX.json";
-//        URL url = new URL(statement);	
-//        URLConnection urlc = url.openConnection();
-//        System.out.println("Stream ended");
-//        urlc.setDoOutput(true);
-//        System.out.println("AAPL");
-//        PrintStream ps = new PrintStream(urlc.getOutputStream());
-//        ps.print(true);
-//        ps.close();
-//        System.out.println("Stream ended");
-//        InputStream x;
-//        x = urlc.getInputStream();
-//        BufferedReader br = new BufferedReader(new InputStreamReader(x));
-//        String l = null;
-//        while ((l=br.readLine())!=null) {
-//            System.out.println(l);
-//        }
-//        br.close();
-    	
     	 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
          //get current date time with Date()
          Date date = new Date();
@@ -109,32 +88,33 @@ public class PastHistoryData {
          //System.out.println(startDate);
          
        //creating csv files for the stock
-         String addr="E://Users//Saurabh//Documents//GitHub//stockmarket//csv files//"+Symbol+".csv";
-         File file = new File(addr);
-         boolean fileCreated = false;
-         fileCreated = file.createNewFile();
+        // String addr="E://Users//Saurabh//Documents//GitHub//stockmarket//csv files//"+Symbol+".csv";
+         
+//         File file = new File(addr);
+//         boolean fileCreated = false;
+//         fileCreated = file.createNewFile();
          
     	
     	 HttpClient httpclient = new DefaultHttpClient();
     	 String output="";
          try {
-        	 HttpGet httpget = new HttpGet("http://www.quandl.com/api/v1/datasets/GOOG/NASDAQ_"+Symbol+".csv?&auth_token=Ts7H6ayVewy4B9sqnbkz&trim_start="+startDate+"&trim_end="+endDate+"&sort_order=desc");
-
+//        	 HttpGet httpget = new HttpGet("http://www.quandl.com/api/v1/datasets/GOOG/NASDAQ_GOOG.csv?&trim_start="+startDate+"&trim_end="+endDate+"&sort_order=desc");
+        	 HttpGet httpget = new HttpGet("http://www.quandl.com/api/v1/datasets/GOOG/NASDAQ_AAME.csv?&trim_start=2014-01-01&trim_end=2014-03-31&sort_order=desc");
              //System.out.println("Executing Request: " + httpget.getURI());
 
              ResponseHandler<String> responseHandler = new BasicResponseHandler();
 
              output = httpclient.execute(httpget, responseHandler);
              
-             FileWriter fWriter = null;
-        	 BufferedWriter writer = null; 
-        	 
-        	 fWriter = new FileWriter(addr);
-        	 writer = new BufferedWriter(fWriter);
-        	 
-        	 writer.write(output);
-        	 writer.newLine();
-        	 writer.close();
+//             FileWriter fWriter = null;
+//        	 BufferedWriter writer = null; 
+//        	 
+//        	 fWriter = new FileWriter(addr);
+//        	 writer = new BufferedWriter(fWriter);
+//        	 
+//        	 writer.write(output);
+//        	 writer.newLine();
+//        	 writer.close();
         	 
          } catch (IOException e) {
              e.printStackTrace();
@@ -154,36 +134,38 @@ public class PastHistoryData {
    }
 
     private static double calcPHV(String output) {
-        
-       DecimalFormat df = new DecimalFormat();
-       df.setMaximumFractionDigits(5);
-       double ph;
-       double count=0;
-       
-       String []realData = output.split(",");
-             
-             int i=6;
-             int j=9;
-             while(i<realData.length && j<realData.length) {
-             
-                 String o=realData[i];
-                 double op=Double.valueOf(o);
-                 String c=realData[j];
-                 double cp=Double.valueOf(c);
-                 
-                 if(cp>op) 
-                    count=count+1;
-                 else if(cp<=op && count==0)
-                    count=0;
-                 else
-                    count=count-1;
-                 
-                 i=i+5;
-                 j=j+5;
-             }
-             ph=count/28;
-             //System.out.println(count);
-             System.out.println(ph);
-             return(ph);
+//        
+//       DecimalFormat df = new DecimalFormat();
+//       df.setMaximumFractionDigits(5);
+//       double ph;
+//       double count=0;
+//       
+//       String []realData = output.split(",");
+//             
+//             int i=6;
+//             int j=9;
+//             while(i<realData.length && j<realData.length) {
+//             
+//                 String o=realData[i];
+//                 double op=Double.valueOf(o);
+//                 String c=realData[j];
+//                 double cp=Double.valueOf(c);
+//                 
+//                 if(cp>op) 
+//                    count=count+1;
+//                 else if(cp<=op && count==0)
+//                    count=0;
+//                 else
+//                    count=count-1;
+//                 
+//                 i=i+5;
+//                 j=j+5;
+//             }
+//             ph=count/28;
+//             //System.out.println(count);
+//             System.out.println(ph);
+//             return(ph);
+    	double phv = ProbabilityFactor.calculation(output);
+    	return phv;
     }
 }

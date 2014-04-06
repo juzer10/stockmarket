@@ -10,10 +10,10 @@ public class UpdatePHV {
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
     static final String DB_URL = "jdbc:mysql://localhost/test";
     static final String USER = "root";
-    static final String PASS = "Saurabh";
+    static final String PASS = "password";
 	
 	public static void update(String Symbol, Double phv) throws ClassNotFoundException, SQLException{
-		System.out.println("Reached PHV+"+ phv);
+		System.out.println("Reached PHV - "+ phv);
 		Connection conn = null;
 		Statement stmt = null;
 		try {
