@@ -13,7 +13,7 @@ public class UpdatePHV {
     static final String PASS = "Saurabh";
 	
 	public static void update(String Symbol, Double phv) throws ClassNotFoundException, SQLException{
-		System.out.println("Reached PHV+"+ phv);
+		//System.out.println("Reached PHV+"+ phv);
 		Connection conn = null;
 		Statement stmt = null;
 		try {

@@ -12,11 +12,6 @@ import java.util.Date;
 
 //import org.omg.CORBA.portable.ResponseHandler;
 
-
-
-
-
-
 import java.text.SimpleDateFormat;
 
 import static java.util.jar.Pack200.Packer.PASS;
@@ -32,7 +27,7 @@ public class PastHistoryData {
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
     static final String DB_URL = "jdbc:mysql://localhost/test";
     static final String USER = "root";
-    static final String PASS = "password";
+    static final String PASS = "Saurabh";
     
     public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {
         
@@ -54,8 +49,9 @@ public class PastHistoryData {
                 while (rs.next()) {
                     String test=rs.getString("Symbol");
                     System.out.println(test);
+                    //if(i>=75)
                     PastHistoryAPI(test);
-                    i++;
+                    //i++;
                    }
                 System.out.println(i);
         }
@@ -103,7 +99,7 @@ public class PastHistoryData {
          //System.out.println(endDate);
          Calendar cal1 = Calendar.getInstance();
          cal1.setTime(date);
-         cal1.add(Calendar.DAY_OF_YEAR, -28);
+         cal1.add(Calendar.DAY_OF_YEAR, -56);
          Date previousDate = cal1.getTime();
          String startDate= dateFormat.format(previousDate);
          //System.out.println(startDate);
@@ -118,7 +114,7 @@ public class PastHistoryData {
     	 HttpClient httpclient = new DefaultHttpClient();
     	 String output="";
          try {
-        	 HttpGet httpget = new HttpGet("http://www.quandl.com/api/v1/datasets/GOOG/NASDAQ_"+Symbol+".csv?&auth_token=Ts7H6ayVewy4B9sqnbkz&trim_start="+startDate+"&trim_end="+endDate+"&sort_order=desc");
+        	 HttpGet httpget = new HttpGet("http://www.quandl.com/api/v1/datasets/GOOG/NASDAQ_"+Symbol+".csv?&trim_start="+startDate+"&trim_end="+endDate+"&sort_order=desc");
 
              //System.out.println("Executing Request: " + httpget.getURI());
 
@@ -164,7 +160,8 @@ public class PastHistoryData {
              
              int i=6;
              int j=9;
-             while(i<realData.length && j<realData.length) {
+             int k=0;
+             while(i<realData.length && j<realData.length && k<28) {
              
                  String o=realData[i];
                  double op=Double.valueOf(o);
@@ -180,6 +177,7 @@ public class PastHistoryData {
                  
                  i=i+5;
                  j=j+5;
+                 k++;
              }
              ph=count/28;
              //System.out.println(count);
