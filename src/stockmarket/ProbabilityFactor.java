@@ -1,6 +1,6 @@
 package stockmarket;
 
-public class ProbabilityFactor {
+public class ProbabilityFactor1 {
 	public static void main(String args[])
 	{
 		

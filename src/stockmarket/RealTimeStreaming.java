@@ -11,12 +11,13 @@ public class RealTimeStreaming {
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
         static final String DB_URL = "jdbc:mysql://localhost/test";
         static final String USER = "root";
-        static final String PASS = "password";
+        static final String PASS = "Saurabh";
 
 	 public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {
 	 	Connection conn = null;
    		Statement stmt = null;
    		String symbolName="";
+   		int i=0;
    		
    		try{
       		Class.forName("com.mysql.jdbc.Driver");
@@ -24,13 +25,15 @@ public class RealTimeStreaming {
      		System.out.println("Connecting to database...");
      		conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			System.out.println("Extracting values...");
-			String query = "SELECT Symbol FROM test.company LIMIT 1000 OFFSET 300";
+			String query = "SELECT Symbol FROM test.companylist";
 			stmt = conn.createStatement();
             System.out.println("Printing");
             ResultSet rs = stmt.executeQuery(query);
 			 while (rs.next()) {
             symbolName = rs.getString("symbol");
             System.out.println(symbolName);
+            i++;
+            if(i>=105)
             RealTimeAPI(symbolName);
             try {
             	Thread.sleep(5000);
