@@ -48,10 +48,10 @@ public class PastHistoryData {
                 ResultSet rs = stmt.executeQuery(query);
                 while (rs.next()) {
                     String test=rs.getString("Symbol");
-                    System.out.println(test);
-                    //if(i>=75)
-                    PastHistoryAPI(test);
-                    //i++;
+                    //System.out.println(test);
+                    if(i<50)
+                    	PastHistoryAPI(test);
+                    i++;
                    }
                 System.out.println(i);
         }
@@ -92,14 +92,14 @@ public class PastHistoryData {
          Date date = new Date();
          Calendar cal = Calendar.getInstance();
          cal.setTime(date);
-         //cal.add(Calendar.DAY_OF_YEAR, -1);
+         cal.add(Calendar.DAY_OF_YEAR, -2);
          Date currentDate = cal.getTime();
          //System.out.println(dateFormat.format(date)); don't print it, but save it!
          String endDate = dateFormat.format(currentDate);
          //System.out.println(endDate);
          Calendar cal1 = Calendar.getInstance();
          cal1.setTime(date);
-         cal1.add(Calendar.DAY_OF_YEAR, -365);
+         cal1.add(Calendar.DAY_OF_YEAR, -367);
          Date previousDate = cal1.getTime();
          String startDate= dateFormat.format(previousDate);
          //System.out.println(startDate);
@@ -114,7 +114,7 @@ public class PastHistoryData {
     	 HttpClient httpclient = new DefaultHttpClient();
     	 String output="";
          try {
-        	 HttpGet httpget = new HttpGet("http://www.quandl.com/api/v1/datasets/GOOG/NASDAQ_"+Symbol+".csv?&trim_start="+startDate+"&trim_end="+endDate+"&sort_order=desc");
+        	 HttpGet httpget = new HttpGet("http://www.quandl.com/api/v1/datasets/GOOG/NASDAQ_"+Symbol+".csv?&auth_token=Ts7H6ayVewy4B9sqnbkz&trim_start="+startDate+"&trim_end="+endDate+"&sort_order=desc");
 
              //System.out.println("Executing Request: " + httpget.getURI());
 
@@ -146,7 +146,7 @@ public class PastHistoryData {
         
         System.out.println(output);
         double phv= calcPHV(output);
-        UpdatePHV.update(Symbol,phv); 
+        UpdatePHV.update(Symbol,phv);
    }
 
     private static double calcPHV(String output) {

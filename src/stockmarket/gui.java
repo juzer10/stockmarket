@@ -157,6 +157,16 @@ public class gui {
 		Button button_3 = new Button("Show Stock List");
 		button_3.setBounds(194, 136, 121, 43);
 		frame.getContentPane().add(button_3);
+		
+		Button button_4 = new Button("Plot EMA");
+		button_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				EMAInput x=new EMAInput();
+				x.setVisible(true);
+			}
+		});
+		button_4.setBounds(194, 200, 121, 43);
+		frame.getContentPane().add(button_4);
 
 	}
 }

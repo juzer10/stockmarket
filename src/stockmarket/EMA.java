@@ -47,121 +47,147 @@ public class EMA {
     	
     	//DateFormat df = new SimpleDateFormat("yyyy-MMM-dd");
     	//Date date;
-    	double c[]=new double[50];
+    	double c[];
+    	String d[];
+    	
         String csvFile = "E:\\Users\\Saurabh\\Documents\\GitHub\\stockmarket\\csv files\\"+Symbol+".csv";
         BufferedReader br = null;
         String line = "";
         String split = ",";
+        //System.out.println(Symbol);
 
         try {
             
+        	int i;
+            int x=0;
         	br = new BufferedReader(new FileReader(csvFile));
-            System.out.println("Connected database successfully...");
-            for(int i=0;(line = br.readLine()) != null;i++) {
-                
-            	if(i==0)
+            //System.out.println("Connected database successfully...");
+            for(i=0;(line = br.readLine())!= null;i++) {
+            	x=x+1;
+            }
+            int count=x-1;
+            //System.out.println(count);
+            c=new double[x];
+            d=new String[x];
+            d = CSV_Parser.getDate(Symbol);// Getting all dates from csv file in variable d[]
+            /*for(int j=0;j<d.length;j++)
+        		System.out.println(d[j]);*/
+            br = new BufferedReader(new FileReader(csvFile));
+            for(i=0;(line = br.readLine())!= null && i<count;i++) {
+                if(i==0)
             		continue;
             	else {
-            	
-                String[] data = line.split(split);
-                //date = df.parse(data[0]);
-                //String newDateString = df.format(date);
-                //System.out.println(newDateString);
-                //D[i]=newDateString;
-                //System.out.println(D[i]);
-                //String Open=data[1];
-                //String High=data[2];
-                //String Low=data[3];
-                double Close=Double.parseDouble(data[4]);
-                //System.out.println(Close);
-                c[i-1]=Close;
-                //System.out.println(c[i-1]);
-                //String Volume=data[5];
+            		String[] data = line.split(split);
+            		double Close=Double.parseDouble(data[4]);
+            		//System.out.println(Close);
+            		c[i-1]=Close;
+            		//System.out.println(c[i-1]);
+            		//String Volume=data[5];
             	}
             }
+            count=i-1;
+            System.out.println(count);
+            /*for(i=0;i<count;i++)
+            	System.out.println(c[i]);*/
             
-            int n=26;
-            double ema[]=new double[26];
-            for(int i=n-1;i>0;i--)
+            //CALCULATING 26 DAY EMA
+            int n26=26;
+            int count26=count-n26;
+            double ema26[]=new double[count26];
+            for(i=count26-1;i>=0;i--)
             {
-            	if(i==n-1)
+            	if(i==count26-1)
             	{
             		double sum=0;
             		double avg=0;
-            		int count=0;
+            		double y=0;
             		for(int j=i;j<c.length;j++)
             			{
             				sum=sum+c[j];
-            				count++;
+            				y++;
             			}
-            		avg=sum/count;
-            		ema[i]=avg;
+            		avg=sum/y;
+            		ema26[i]=avg;
             	}
             	else
             	{
             		double k=2.0/27.0;
-            		ema[i]=c[i]*k+ema[i+1]*(1-k);
+            		ema26[i]=c[i]*k+ema26[i+1]*(1-k);
             	}
             		
             }
-            for(int i=1;i<n;i++)
-            	System.out.println(ema[i]);
+            System.out.println("26 DAY EMA");
+            for(i=0;i<count26;i++)
+            	System.out.println(ema26[i]);
+            //CALCULATION OF 26 DAY EMA ENDS HERE
             
-            int n1=12;
-            double ema1[]=new double[12];
-            for(int i=n-1;i>0;i--)
+            //CALCULATING 12 DAY EMA
+            int n12=12;
+            int count12=count-n12;
+            double ema12[]=new double[count12];
+            for(i=count12-1;i>=0;i--)
             {
-            	if(i==n-1)
+            	if(i==count12-1)
             	{
             		double sum=0;
             		double avg=0;
-            		int count=0;
+            		double y=0;
             		for(int j=i;j<c.length;j++)
             			{
             				sum=sum+c[j];
-            				count++;
+            				y++;
             			}
-            		avg=sum/count;
-            		ema1[i]=avg;
+            		avg=sum/y;
+            		ema12[i]=avg;
             	}
             	else
             	{
             		double k=2.0/13.0;
-            		ema1[i]=c[i]*k+ema1[i+1]*(1-k);
+            		ema12[i]=c[i]*k+ema12[i+1]*(1-k);
             	}
             		
             }
-            for(int i=1;i<n1;i++)
-            	System.out.println(ema1[i]);
+            System.out.println("12 DAY EMA");
+            for(i=0;i<count12;i++)
+            	System.out.println(ema12[i]);
+            //CALCULATION OF 12 DAY EMA ENDS HERE
             
-            double emad[]=new double[12];
-            for(int i=1;i<n1;i++)
-            	emad[i]=ema1[i]-ema[i];
+            //CALCULATING DIFFERENCE BETWEEN THE TWO EMAs
+            double emadiff[]=new double[count26];
+            for(i=0;i<count26;i++)
+            	emadiff[i]=ema12[i]-ema26[i];
+            /*System.out.println();
+            for(i=0;i<count26;i++)
+            	System.out.println(emadiff[i]);*/
             
-            int n2=9;
-            double ema9[]=new double[12];
-            for(int i=n-1;i>0;i--)
+            //CALCULATING 9 DAY EMA OF THE DIFFERENCE
+            int n9=9;
+            int count9=count26-n9;
+            double ema9[]=new double[count9];
+            for(i=count9-1;i>=0;i--)
             {
-            	if(i==n-1)
+            	if(i==count9-1)
             	{
             		double sum=0;
             		double avg=0;
-            		int count=0;
-            		for(int j=i;j<emad.length && count<9;j++)
+            		int y=0;
+            		for(int j=i;j<emadiff.length;j++)
             			{
-            				sum=sum+emad[j];
-            				count++;
+            				sum=sum+emadiff[j];
+            				y++;
             			}
-            		avg=sum/count;
+            		avg=sum/y;
             		ema9[i]=avg;
             	}
             	else
             	{
             		double k=2.0/10.0;
-            		ema9[i]=emad[i]*k+ema9[i+1]*(1-k);
+            		ema9[i]=emadiff[i]*k+ema9[i+1]*(1-k);
             	}
-            		
             }
+            System.out.println("9 DAY EMA");
+            for(i=0;i<count9;i++)
+            	System.out.println(ema9[i]);
         }
         
         catch (IOException e) {

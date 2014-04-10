@@ -21,7 +21,7 @@ public class UpdatePHV {
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			//stmt = conn.createStatement();
 			//System.out.println("Connected to Database");
-			String q1 = "UPDATE phvtest SET phvvalue = '"+phv+"' WHERE Symbol = '"+Symbol+"'";
+			String q1 = "UPDATE phv SET phvvalue = '"+phv+"' WHERE Symbol = '"+Symbol+"'";
 			stmt = conn.createStatement();
             stmt.executeUpdate(q1);
 			//System.out.print("it's working");
